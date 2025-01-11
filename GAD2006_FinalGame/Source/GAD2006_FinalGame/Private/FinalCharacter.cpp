@@ -25,8 +25,8 @@ AFinalCharacter::AFinalCharacter()
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationYaw = false;
 
-	SideViewCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Side View Camera"));
-	SideViewCamera->bUsePawnControlRotation = false;
+	ThirdPersonCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Third Person Camera"));
+	ThirdPersonCamera->bUsePawnControlRotation = false;
 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 720.0f, 0.0f);
@@ -40,6 +40,7 @@ AFinalCharacter::AFinalCharacter()
 
 	tempPos = GetActorLocation();
 	zPosition = tempPos.Z + 300.0f;
+	//yPosition = tempPos.Y - 300.0f;
 
 	bIsFastFalling = false;
 }
@@ -62,15 +63,15 @@ void AFinalCharacter::Tick(float DeltaTime)
 
 	if (bIsFastFalling && GetCharacterMovement()->IsFalling() == false)
 	{
-		// Yere indiðimizde yerçekimi eski haline dönsün
 		bIsFastFalling = false;
-		GetCharacterMovement()->GravityScale = 2.0f; // Eski yerçekimi deðeri
+		GetCharacterMovement()->GravityScale = 2.0f;
 	}
 
 	tempPos = GetActorLocation();
 	tempPos.X -= 850.0f;
 	tempPos.Z = zPosition;
-	SideViewCamera->SetWorldLocation(tempPos);
+	tempPos.Y -= 450.0f;
+	ThirdPersonCamera->SetWorldLocation(tempPos);
 
 }
 
@@ -97,7 +98,6 @@ void AFinalCharacter::MoveRight(float value)
 
 void AFinalCharacter::FastFall()
 {
-	// Karakterin havada olduðunu kontrol et
 	if (!GetCharacterMovement()->IsFalling())
 	{
 		return;

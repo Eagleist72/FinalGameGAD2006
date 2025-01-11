@@ -11,8 +11,8 @@ class GAD2006_FINALGAME_API AFinalCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere)
-	class UCameraComponent* SideViewCamera;
+	UPROPERTY(VisibleAnywhere, Category = "Camera")
+	class UCameraComponent* ThirdPersonCamera;
 
 public:
 	// Sets default values for this character's properties
@@ -33,17 +33,15 @@ protected:
 
 	void MoveRight(float value);
 
-	// Hýzlý iniþ fonksiyonu
 	void FastFall();
 
-	// Hýzlý iniþ esnasýnda daha fazla yerçekimi uygulamak için deðiþken
 	bool bIsFastFalling;
 
 public:
 
-	class UCameraComponent* GetSideViewCameraComponent() const
+	class UCameraComponent* GetThirdPersonCameraComponent() const
 	{
-		return SideViewCamera;
+		return ThirdPersonCamera;
 	}
 
 	UFUNCTION()
@@ -54,6 +52,8 @@ public:
 private:
 
 	float zPosition;
+	float yPosition;
+	float xPosition;
 	FVector tempPos = FVector();
 
 	bool CanMove;
